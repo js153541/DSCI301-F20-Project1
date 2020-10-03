@@ -1,0 +1,120 @@
+HJu---
+title: "Project 1"
+author: Jarvis Sanders
+date: "2020-10-02"
+output:
+  html_document: default
+  pdf_document: default
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+Loading and Cleaning the Data:
+
+For the most part, I believe the data set I found came clean. I made a few minor changes that I will talk about now. First, I removed a column from the data set, that was an index. It numbered the rows from 0 to 2253. The NA values of the data set were marked by a -1 which I thought was appropriate, so I left that part in the data set, but removed it when I started my data analysis in R. In the column that talked about the salary estimates of the data analyst jobs, there was a range given. After that range was listed, there was the phrase (Glassdoor est.), I decided to remove that phrase once I began manipulating the data in R. Besides this, I just went through the data and corrected and typos I saw. I did not make any unsual changes to the data. There was no messy data. 
+
+```{r}
+'source(CleanData.R)'
+library(tidyverse)
+
+```
+Description of the Data set:
+
+This data set lists many different data analyst jobs and different aspects of those jobs. Aspects such as the job title, salary, description of the job, the company, and the year that the company was founded. The data set also has information about the companies and information about the application process. 
+
+I intend to make use of the founded column, which tells me what year a certain company was founded. Additionally, I plan to make use of the location and size data. The location column talks about the location of the company, and the size column provides data on the size of the company within a given range. Finally, I plan to make use of the rating column data. This column provides the rating of the company in the form of a number. I did not find a column or row in this data set that I could not understand, which is really good for a beginner like myself. 
+
+This data set contains about 2254 rows and 14 columns. With this data I would like to analyze the different columns of the data and compare them to other columns then make assumptions based off of the data I have available.
+
+A couple questions that I will not be able to answer with this data are:
+
+1. How many people apply for these positions?
+
+2. Do these jobs offer internships and what percentage of people become full time employees?
+
+3. Who are the CEOs of these companies?
+
+I believe that any additional information added to this data set would be important to exploratory data analysis. When I found this data set, kaggle did not explain how this data was collected. If I had to guess, I would assume from just asking or having people submit jobs or from  rowsing job sites. 
+```{r}
+ jobs <- read_csv("DataAnalyst.csv", 
+                 na = c("-1", "(Glassdoor est.)", "€™"),
+                 col_types = 
+                   cols(
+                     'Job Title' = col_character(),
+                     'Salary Estimate'	= col_factor(),
+                     'Job Description'	= col_factor(),
+                     Rating = col_double(),
+                     'Company Name' = col_factor(),
+                     Location = col_character(),
+                     Headquarters = col_character(),
+                     Size = col_factor(),
+                     Founded = col_double(),
+                     'Type of ownership' = col_character(),
+                     Industry = col_character(),
+                     Sector = col_character(),
+                     Revenue = col_factor(),
+                     Competitors = col_character(),
+                     'Easy Apply' = col_factor()
+                   )
+)
+        
+        
+```
+GGPLOT Graph:
+
+Here I just did some basic analysis. I just counted the amount of times each founded year occurred in the data set. Most are found in the early 2000s. Something I would like to explore is how the year a company was founded could effect different aspects in the field of Data Analytics. From this data I can determine that more companies are modern, which I think makes sense. Most likely there was no need for a data analyst back in the 1700s. 
+
+```{r}
+jobs %>%
+  ggplot(aes(x = Founded)) +
+  geom_histogram()
+```
+
+
+Something I found interesting: 
+
+Here I chose the location (New York) and the Size (number of employees) of the company and made a graph about it. This graph will show you how many companies in New York have different size ranges of employees. From this data I was able to determine that New York has many companies that are really small or very large with little in between. I would assume that the smaller companies below 100 employees are start up companies that are growing. From the larger companies, I would assume that those are probably corporate offices of larger well-known companies that settled in New York. 
+
+```{r}
+
+jobs %>%
+  ggplot(aes(x = 'New York, NY' , y = Size )) +
+  geom_count()
+
+```
+
+
+This ggplot scatterplot takes the founded and rating column and compares the two. Here is what I gathered from this data analysis: There seems to be no correlation between when a company was founded and the rating that company receives. I think this is important. Before doing this part of my project, I assumed that the year the company was founded would cause the overall rating to be lowered. I figured clients would stick with and rate the modern companies higher. 
+
+
+
+```{r}
+
+jobs %>%
+  ggplot(aes(x = Founded, y = Rating )) +
+  geom_point()
+```
+
+
+Table from dpplyr:
+
+This table from dpplyr will list all of the jobs in the New York Location, and all of the other information from other columns. Neat!
+
+```{r}
+filter(jobs, Location == "New York, NY")
+```
+
+
+Conclusion:
+
+As stated above here are some questions I would like to explore in the future if the data becomes available. 
+
+1. How many people apply for these positions?
+
+2. Do these jobs offer internships and what percentage of people become full time employees?
+
+3. Who are the CEOs of these companies?
+
+Finding exact salaries would be useful for these jobs instead of a range. For some, instead of using the value -1 for false or NA, maybe using NA or false would be better for formatting. Maybe going in depth and talking about different fields and the type of degree or certificate obtained could be used in further exploration. 
+
+In conclusion, this was a very interesting project, and I wish to explore this data set and others in the future. 
