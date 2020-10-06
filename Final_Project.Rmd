@@ -1,15 +1,19 @@
-HJu---
+---
 title: "Project 1"
-author: Jarvis Sanders
+author: "Jarvis Sanders"
 date: "2020-10-02"
 output:
   html_document: default
   pdf_document: default
+---
 
 ```{r setup, include=FALSE}
 knitr::opts_chunk$set(echo = TRUE)
 ```
+
 Loading and Cleaning the Data:
+
+<span style="color: green; font-size: 14pt">The above should probably be a header?</span> 
 
 For the most part, I believe the data set I found came clean. I made a few minor changes that I will talk about now. First, I removed a column from the data set, that was an index. It numbered the rows from 0 to 2253. The NA values of the data set were marked by a -1 which I thought was appropriate, so I left that part in the data set, but removed it when I started my data analysis in R. In the column that talked about the salary estimates of the data analyst jobs, there was a range given. After that range was listed, there was the phrase (Glassdoor est.), I decided to remove that phrase once I began manipulating the data in R. Besides this, I just went through the data and corrected and typos I saw. I did not make any unsual changes to the data. There was no messy data. 
 

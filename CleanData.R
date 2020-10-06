@@ -1,3 +1,4 @@
+library(tidyverse)
 jobs <- read_csv("DataAnalyst.csv", 
                  na = c("-1", "(Glassdoor est.)", "???T"),
                  col_types = 

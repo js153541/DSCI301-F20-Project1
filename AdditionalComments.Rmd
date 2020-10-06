@@ -1,0 +1,46 @@
+---
+title: "Additional"
+author: "John W. Hoggard"
+date: "10/6/2020"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+```{r, message = F}
+source("CleanData.R")
+```
+
+On your histogram of dates founded for the data science positions, I think the long leftward tail is indicative of the somewhat smaller number of companies that have been along for a long time, vs. a large number of firms that were more recently founded.  (Many companies may not last that long.) We are probably seeing what is known a *survivorship bias* here:
+
+```{r}
+jobs %>%
+  ggplot(aes(x = Founded)) +
+  geom_histogram(binwidth = 15) + 
+  labs(title = "Most Jobs are at Recently Founded Firms", y = "Positions")
+```
+
+Here's your New York jobs, redone as a bar plot, and filtered to only show New York jobs:
+
+```{r}
+jobs %>%
+    filter(Location == "New York, NY") %>%
+    ggplot(aes(y = Size )) +
+    geom_bar() +
+    labs(title = "New York Data Science Jobs", subtitle = "By Size of Company", 
+         x = "Jobs")
+```
+
+Your interactions graph would be improved with a regression line, which seems to (slightly) suggest the more recently founded companies have higher ratings:
+
+```{r}
+jobs %>%
+    filter(!is.na(Founded), !is.na(Rating)) %>%
+    ggplot(aes(x = Founded, y = Rating )) +
+    geom_point() + 
+    geom_smooth(method = "lm", se = F, formula=y~x) +
+    labs(title = "Do More Recent Companies have Higher Ratings?")
+```
+
